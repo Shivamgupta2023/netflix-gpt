@@ -1,15 +1,22 @@
 import React, { useRef, useState } from 'react'
 import { checkErrorValidate } from '../constants/CheckErrorValidator'
 import { auth } from '../constants/Firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { addUser } from '../constants/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const LoginBox = () => {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [toggleLogin, setToggleLogin] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     const email = useRef(null)
     const password = useRef(null)
+    const userName = useRef(null)
 
     const handleToggleLogin = () => {
         setToggleLogin(!toggleLogin)
@@ -18,6 +25,7 @@ const LoginBox = () => {
     const handleLoginBtn = () => {
       let emailValue = email.current.value;
       let passwordValue = password.current.value;
+      let userNameValue = userName.current.value;
       let errorMessage = checkErrorValidate(emailValue, passwordValue);
       setErrorMessage(errorMessage);
       if (errorMessage) return;
@@ -27,7 +35,17 @@ const LoginBox = () => {
           .then((userCredential) => {
             // Signed up
             const user = userCredential.user;
-            // ...
+            updateProfile(user, {
+                displayName: userNameValue, photoURL: "https://example.com/jane-q-user/profile.jpg"
+              }).then(() => {
+                // Profile updated!
+                let {email, displayName, uid, photoURL} = auth.currentUser;
+                dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
+                navigate('/browse')
+              }).catch((error) => {
+                // An error occurred
+                setErrorMessage(error.message)
+              });
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -62,6 +80,7 @@ const LoginBox = () => {
             className="bg-white p-2 w-72 mt-4"
             type="text"
             placeholder="Username"
+            ref={userName}
           ></input>
         )}
         <input
