@@ -1,15 +1,13 @@
 import React, { useRef, useState } from 'react'
-import { checkErrorValidate } from '../constants/CheckErrorValidator'
-import { auth } from '../constants/Firebase'
+import { checkErrorValidate } from '../Utils/CheckErrorValidator'
+import { auth } from '../Utils/Firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useDispatch } from 'react-redux';
-import { addUser } from '../constants/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { addUser } from '../Utils/userSlice';
 
 const LoginBox = () => {
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const [toggleLogin, setToggleLogin] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -41,7 +39,6 @@ const LoginBox = () => {
                 // Profile updated!
                 let {email, displayName, uid, photoURL} = auth.currentUser;
                 dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
-                navigate('/browse')
               }).catch((error) => {
                 // An error occurred
                 setErrorMessage(error.message)
