@@ -1,10 +1,16 @@
 import React from 'react'
 import Header from './Header'
+import useGetNowPlayingMovies from '../Hooks/useGetNowPlayingMovies'
+import MainContainer from './MainContainer'
 
 const Browse = () => {
+
+  useGetNowPlayingMovies()
+
   return (
-    <div>
+    <div className='flex flex-col'>
       <Header/>
+      <MainContainer/>
     </div>
   )
 }

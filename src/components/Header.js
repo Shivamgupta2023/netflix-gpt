@@ -44,7 +44,7 @@ const Header = () => {
       <img
         src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
         alt="logo"
-        className='w-44'
+        className='w-44 z-10'
       />
       {user && <div onClick={handleSignOut} className='text-red-600 mt-8 font-bold text-lg cursor-pointer'>
         Sign Out
