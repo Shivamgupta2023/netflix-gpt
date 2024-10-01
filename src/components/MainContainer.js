@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import VideoContainer from './VideoContainer';
 import VideoTitle from './VideoTitle';
+import SecondaryContainer from './SecondaryContainer';
 
 const MainContainer = () => {
 
@@ -15,6 +16,7 @@ const MainContainer = () => {
     <div className='pt-25'>
         <VideoTitle title={original_title} overview={overview}/>
         <VideoContainer movieid={id}/>
+        <SecondaryContainer/>
     </div>
   )
 }
