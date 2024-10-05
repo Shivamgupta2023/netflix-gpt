@@ -7,7 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../Utils/Firebase";
 import { toggleGptBtn } from "../Utils/GptSearchSlice";
 import { App_logo } from "../Utils/constant";
-import { LanguageList, SupportedLanguages } from "../Utils/LanguageConstants";
+import { SupportedLanguages } from "../Utils/LanguageConstants";
 import { addLanguage } from "../Utils/configSlice";
 
 const Header = () => {
@@ -15,6 +15,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user);
+  const showGPTSearchPage = useSelector(store => store.gpt?.gptToggleBtn)
 
   useEffect(() => {
     const unsubsribeAuth = onAuthStateChanged(auth, (user) => {
@@ -64,21 +65,19 @@ const Header = () => {
       <img src={App_logo} alt="logo" className="w-44 z-10" />
       {user && (
         <div className="flex mt-8">
-          <div>
-            <select 
-            className="p-1 bg-slate-500 text-white rounded-lg w-24"
+            {showGPTSearchPage && <select 
+            className="p-1 bg-slate-500 text-white rounded-lg w-24 h-8"
             onChange={handleLangSelect}
             >
               {SupportedLanguages.map(itm => {
                 return <option key={itm.key} value={itm.key}>{itm.value}</option>
               })}
-            </select>
-          </div>
+            </select>}
           <button
             onClick={handleGptBtn}
             className="bg-slate-500 w-24 rounded-lg text-white h-8 mx-2"
           >
-            GPT Search
+            {!showGPTSearchPage ? 'GPT Search':  'Homepage'}
           </button>
           <div
             onClick={handleSignOut}
