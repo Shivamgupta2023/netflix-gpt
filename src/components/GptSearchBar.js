@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { LanguageList } from "../Utils/LanguageConstants";
 import { API_options } from "../Utils/constant";
 import { addGptMovies } from "../Utils/GptSearchSlice";
+import { Form } from "react-router-dom";
+import client from "../Utils/gptOpenAi";
 
 export const GptSearchBar = () => {
 
@@ -21,15 +23,12 @@ export const GptSearchBar = () => {
 
 
   const handleGPTsearch = async () => {
-    debugger
-    console.log('sfdsfdsf')
     let searchText = `The result for this value ${gptSearch.current.value} should return 5 movie names in a string. For example the result should look like ${'Andaz Apna Apna, Race 2, Agneepath, Tumbaad, Stree'}`
-      // const chatCompletion = await client.chat.completions.create({
-      //   messages: [{ role: 'user', content: searchText }],
-      //   model: 'gpt-3.5-turbo',
-      // });
-      // let arrayData = chatCompletion?.choices[0]?.message?.content.split(', ');
-      let arrayData = ['Andaz Apna Apna', 'Race 2', 'Agneepath', 'Tumbaad', 'Stree']
+      const chatCompletion = await client.chat.completions.create({
+        messages: [{ role: 'user', content: searchText }],
+        model: 'gpt-3.5-turbo',
+      });
+      let arrayData = chatCompletion?.choices[0]?.message?.content.split(', ');
 
       let promiseArray = arrayData.map(movie => fetchSearchMoviesData(movie));
       
@@ -41,7 +40,7 @@ export const GptSearchBar = () => {
 
   return (
     <div className="flex justify-center rounded-lg">
-      <form onSubmit={(e) => e.preventDefault()} className="bg-black p-4 mt-[8%] w-1/2 grid grid-cols-12 bg-opacity-75">
+      <Form onSubmit={(e) => e.preventDefault()} className="bg-black p-4 mt-[8%] w-1/2 grid grid-cols-12 bg-opacity-75">
         <input
           type="text"
           placeholder={LanguageList[langKey]?.searchText}
@@ -51,7 +50,7 @@ export const GptSearchBar = () => {
         <button onClick={handleGPTsearch} className="bg-red-500 text-white col-span-3 mx-2 rounded-md">
           {LanguageList[langKey]?.search}
         </button>
-      </form>
+      </Form>
     </div>
   );
 };
