@@ -23,7 +23,6 @@ const LoginBox = () => {
     const handleLoginBtn = () => {
       let emailValue = email.current.value;
       let passwordValue = password.current.value;
-      let userNameValue = userName.current.value;
       let errorMessage = checkErrorValidate(emailValue, passwordValue);
       setErrorMessage(errorMessage);
       if (errorMessage) return;
@@ -33,6 +32,7 @@ const LoginBox = () => {
           .then((userCredential) => {
             // Signed up
             const user = userCredential.user;
+            let userNameValue = userName.current.value;
             updateProfile(user, {
                 displayName: userNameValue, photoURL: "https://example.com/jane-q-user/profile.jpg"
               }).then(() => {
@@ -51,10 +51,12 @@ const LoginBox = () => {
             // ..
           });
       } else {
-        signInWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, emailValue, passwordValue)
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
+            let {email, displayName, uid, photoURL} = user;
+            dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
             // ...
           })
           .catch((error) => {
