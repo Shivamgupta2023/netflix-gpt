@@ -7,7 +7,7 @@ const MovieList = ({ titleHeading, MovieListData }) => {
 
   return (
     <>
-      <div className="mx-4 mt-4 text-3xl">{titleHeading}</div>
+      <div className="mx-4 mt-4 md:text-3xl">{titleHeading}</div>
       <div className="flex overflow-x-scroll hide-scrollbar">
         <div className="flex">
           {MovieListData.map((itm) => {

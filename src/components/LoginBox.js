@@ -68,7 +68,7 @@ const LoginBox = () => {
     };
 
   return (
-    <div className="absolute bg-black top-1/4 left-1/3 w-96 bg-opacity-75 rounded-xl">
+    <div className="absolute bg-black top-1/4 bg-opacity-75 rounded-xl w-full md:left-1/3 md:w-96">
       <form onSubmit={(e) => e.preventDefault()} className="mx-10 my-12">
         <h1 className="text-3xl text-white">
           {" "}

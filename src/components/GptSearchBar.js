@@ -40,7 +40,7 @@ export const GptSearchBar = () => {
 
   return (
     <div className="flex justify-center rounded-lg">
-      <Form onSubmit={(e) => e.preventDefault()} className="bg-black p-4 mt-[8%] w-1/2 grid grid-cols-12 bg-opacity-75">
+      <Form onSubmit={(e) => e.preventDefault()} className="bg-black p-4 bg-opacity-75 mt-28 w-full m-4 md:mt-[8%] md:w-1/2 grid grid-cols-12">
         <input
           type="text"
           placeholder={LanguageList[langKey]?.searchText}
